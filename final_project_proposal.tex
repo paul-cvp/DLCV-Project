@@ -45,36 +45,34 @@ Vlad Paul Cosma\\
 %
 % Proposal I
 %
-\section*{Proposal I}
+\section*{Proposal I - Level 1 autonomous driving, automated steering}
 \section{Introduction}
-    Explain your general idea and state the problem you are trying to solve.
+In the recent years, the development of driverless cars has taken a steep curve towards truly autonomous driving systems. Companies like Tesla, Mercedes or even Google have started developing their own systems for autonomous vehicles and have made huge steps in this direction. Their aim is to provide safer cars, by lowering traffic collisions, to relief the driver from certain aspects of driving, like lowering the fuel consumption, and to facilitate new business models for mobility as a service. 
 
-    \subsection{Related Works}
-        \begin{itemize}
-            \item Related and previous work on your topic
-            \item A small overview of the SOTA (state-of-the-art)
-            \item What is new/different in your approach?
-            \item[] $\dots$
-        \end{itemize}
+Solving the problem of autonomous driving is not as easy as it sounds. To build a car that drives itself, one should consider a lot of external factors, and to combine several subsystems to create an almost flawless device. Our brains, are a good benchmark when it comes to driving. It handles input from eyes, ears, hands, feet, and the whole body and can provide feedback within milliseconds. The main goal for a driverless car is to surpass the human brain in perception and decision-making capabilities. To better track the developments in this area the SAE has defined the International Standard J3016, which identifies six levels of driving automation from “no automation” to “full automation” ( http://www.sae.org/misc/pdfs/automated_driving.pdf ). 
+
+In our project, we will focus on level 1 of automated driving, namely “Drivers Assistance”. We aim to improve the existing tools for the street lines reconnaissance and to provide a smoother ride for the passengers, by applying regression analysis using the newer DeepLab-ResNet architecture, which showed promising results in PASCAL VOC dataset.
+
+\subsection{Related Works}
+
+This field of application for deep learning has been under a lot of development lately. Most notably, The Karlsruhe Institute of Technology in collaboration with the Toyota Institute at Chicago have developed the KITTI Vision and Benchmark suite, which contains datasets and benchmarks for many different driving tasks. ( http://www.vision.caltech.edu /malaa/publications/aly08realtime.pdf ) and (https://arxiv.org/pdf/1505.00256.pdf) are also important papers on the lane detection tasks during automated driving.
 
 \section{Dataset}
-    \begin{itemize}
-        \item Are you working with an existing dataset or is data collection part of your project?
-        \item Explain the general nature of your data (show examples if beneficial)
-        \item Does your data provide the labels necessary for training?
-        \item Explain possible problems with the dataset
-        \item What are your inputs and outputs?
-        \item[] $\dots$
-    \end{itemize}
+We are going to set a fixed speed for the car and want to test it in the computer game "GTA V". Since there is no good dataset available from a car that is moving with constant speed in GTA V, data collection will be a part of the project.  
+ 
+Screen frames are going to be captured by the python package "grabscreen", the steering signal will be captured by the package "getkeys". The data will consist of downscaled frames from the game and the labels are going to be the steering signal that was applied while the frame was captured.
+
+One difficulty could be recording the steering signal as real valued data (and not just left, right or none). Since we are going to drive with a constant speed and the network doesn't need to infere the speed of objects, the input will be just one image at a time. The output is the prediction for the steering value that should be apply given an input image.
 
 \section{Methodology}
-    Describe all the different phases/components/steps on how you are planning to solve your previously stated problem. Try to give us a clear picture of your methodology and remember that the project's focus is on deep learning. Try to elaborate on the following points:
-    \begin{itemize}
-        \item Network architecture(s)
-        \item Transfer learning and training from scratch
-        \item Resource management (please consider GPU memory)
-        \item[] $\dots$
-    \end{itemize}
+In our approach we would like to use the Image segmentation of the GTA (game) frame to train the DeepLab-ResNet architecture. We propose to divide the given set of image into road, cars, lanes., and then use the 
+necessary activations of the segmentation of the lane, (if possible pedestrians etc,.) to change the angle of vehicle steering during the course of game play.
+
+Training of the model can be performed on the mini-batch of images and corresponding ground truth shall be masked with the softmax classifier at the top .During training, some inherent features of the architecture are, masks are downsampled to match the size of the output from the network and during inference, to acquire the output of the same size as the input, bilinear upsampling is also applied. The final segmentation mask is computed using argmax over the logits. As well as an optional fully-connected probabilistic graphical model, namely, CRF, is applied to refine the ultimate predictions.The model achieves 79.7% of mean interseaction over union on the test set of PASCAL VOC. 
+
+We will be using the outputs of the architecture to the steer the vehicle in the game using GTA-Plugin for capturing screen and sending commands to vehicle which can be located at https://github.com/ai-tor/DeepGTAV
+
+Considering the resource management, we will be using Nvidia based 1050 GTX as owned by one of the teammates, which is based on Pascal architecture and has 640 cuda cores onboard.
 
 \section{Outcome}
     What is your desired outcome or aspiration for the project?
@@ -93,9 +91,9 @@ Most of the current methods rely on analytical approaches. These algorithms for 
 
 New methods involving deep learning are currently being investigated and several papers are tackling this challenge using deep learning. Among them there are:
 \begin{itemize}
-	\item https://pdfs.semanticscholar.org/5392/90b571b918da959fabaae7f605bb07850518.pdf []
+	\item https://pdfs.semanticscholar.org/5392 /90b571b918da959fabaae7f605bb07850518.pdf []
 	\item https://arxiv.org/pdf/1704.01474.pdf []
-	\item https://pdfs.semanticscholar.org/3b57/85ca3c29c963ae396c2f94ba1a805c787cc8.pdf []
+	\item https://pdfs.semanticscholar.org/3b57 /85ca3c29c963ae396c2f94ba1a805c787cc8.pdf []
 \end{itemize}
 
 Our aim is to use an existing CNN that already performs well on classic object detection on the ImageNet dataset, such as ResNet and then tweak and train it for document layout analysis. Our methodology is different from others because it uses an existing well performing CNN architecture instead of a special purpose dedicated one. Also most existing CNN based methods cover the process of document image classification for the entire page and not for subsections of it.
@@ -107,7 +105,9 @@ In order to train our network we would need to have at least a document with cor
 
 \section{Methodology}
 Our methodology will be simple. First take the scanned pdf and do some simple pre-processing, such as transforming the pdf into a binary image and doing morphological operations on these in order to remove noise and have sharp text.
-Next we train ResNet from scratch with the labelled dataset from scratch and test using simple documents. After we have a benchmark we could start tweaking the CNN by adding and removing layers to see if it performs better or trains faster.
+
+Next we train ResNet from scratch with the labelled dataset and test using simple documents. After we have a benchmark we could start tweaking the CNN by adding and removing layers to see if it performs better or trains faster.
+
 Because we will use scanned documents we do not expect our dataset to be very huge and therefore we might not need very high GPU memory. We could probably do well with a single Nvidia 1050 or 1080 GTX graphics card. 
 
 \section{Outcome}
