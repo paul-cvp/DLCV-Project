@@ -1,0 +1,120 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+\ifcvprfinal\pagestyle{empty}\fi
+\begin{document}
+
+%%%%%%%%% TITLE
+\title{Deep Learning for Computer Vision: Final Project Proposal\\(Replace with your project title)}
+
+\author{Tom Dorr\\
+{\tt\small tom.dorr@tum.de}
+\and
+Theodor Cheslerean Boghiu\\
+{\tt\small theo.cheslerean@tum.de}
+\and
+Mohamed Asif Chand\\
+{\tt\small mdasifchand@gmail.com}
+\and
+Vlad Paul Cosma\\
+{\tt\small vlad.cosma@tum.de}
+}
+
+\maketitle
+%\thispagestyle{empty}
+
+%
+% Proposal I
+%
+\section*{Proposal I}
+\section{Introduction}
+    Explain your general idea and state the problem you are trying to solve.
+
+    \subsection{Related Works}
+        \begin{itemize}
+            \item Related and previous work on your topic
+            \item A small overview of the SOTA (state-of-the-art)
+            \item What is new/different in your approach?
+            \item[] $\dots$
+        \end{itemize}
+
+\section{Dataset}
+    \begin{itemize}
+        \item Are you working with an existing dataset or is data collection part of your project?
+        \item Explain the general nature of your data (show examples if beneficial)
+        \item Does your data provide the labels necessary for training?
+        \item Explain possible problems with the dataset
+        \item What are your inputs and outputs?
+        \item[] $\dots$
+    \end{itemize}
+
+\section{Methodology}
+    Describe all the different phases/components/steps on how you are planning to solve your previously stated problem. Try to give us a clear picture of your methodology and remember that the project's focus is on deep learning. Try to elaborate on the following points:
+    \begin{itemize}
+        \item Network architecture(s)
+        \item Transfer learning and training from scratch
+        \item Resource management (please consider GPU memory)
+        \item[] $\dots$
+    \end{itemize}
+
+\section{Outcome}
+    What is your desired outcome or aspiration for the project?
+
+%
+% Proposal II
+%
+\section*{Proposal II - Document layout analysis}
+\setcounter{section}{0}
+
+\section{Introduction}
+As the world is moving to a digital age and paper based documents start to become obsolete, there is an inherent need to transfer information from existing paper based documents into digital formats. The process usually involves using scanners to create an image based pdf/tiff file. During this process the document structure is lost, elements such as headings, paragraphs, tables and titles are not properly marked up. OCR software is able to recognize the text, but it isn't able to recover the document structure, such as reading order. This is a problem if the document should be further converted into an audiobook by text-to-speech software. The document might be read in the wrong order. Our solution proposes to use a CNN in order to classify the different document areas (heading levels, paragraphs, tables, signatures etc.) from a scanned pdf in order to be used together with other technologies such as OCRs and NLP applications in order to provide a correctly tagged document, complete with reading order, from a scanned pdf.
+
+\subsection{Related Works}
+Most of the current methods rely on analytical approaches. These algorithms for layout analysis could be classified into bottom-up algorithms, which start from pixels upwards in order to recognize structure, such as the document layout analysis algorithm developed in 1993 by O'Gorman [] or top-down algorithms which start from the complete document and image and divides it into smaller regions.
+
+New methods involving deep learning are currently being investigated and several papers are tackling this challenge using deep learning. Among them there are:
+\begin{itemize}
+	\item https://pdfs.semanticscholar.org/5392/90b571b918da959fabaae7f605bb07850518.pdf []
+	\item https://arxiv.org/pdf/1704.01474.pdf []
+	\item https://pdfs.semanticscholar.org/3b57/85ca3c29c963ae396c2f94ba1a805c787cc8.pdf []
+\end{itemize}
+
+Our aim is to use an existing CNN that already performs well on classic object detection on the ImageNet dataset, such as ResNet and then tweak and train it for document layout analysis. Our methodology is different from others because it uses an existing well performing CNN architecture instead of a special purpose dedicated one. Also most existing CNN based methods cover the process of document image classification for the entire page and not for subsections of it.
+
+\section{Dataset}
+Currently there are several datasets available for using deep learning on documents, such as: Tobbaco [], NIST [] IAM database and we aim to use one of them. In case these will prove to be insufficiently labeled for our project, we could create simple documents by ourselves and use the markup from which they were created as the ground-truth labels for our training. 
+
+In order to train our network we would need to have at least a document with correctly labelled bounding boxes and their reading order. For input we expect to get a single page scanned pdf/tiff and for output to get a hierarchy of classified bounding boxes.
+
+\section{Methodology}
+Our methodology will be simple. First take the scanned pdf and do some simple pre-processing, such as transforming the pdf into a binary image and doing morphological operations on these in order to remove noise and have sharp text.
+Next we train ResNet from scratch with the labelled dataset from scratch and test using simple documents. After we have a benchmark we could start tweaking the CNN by adding and removing layers to see if it performs better or trains faster.
+Because we will use scanned documents we do not expect our dataset to be very huge and therefore we might not need very high GPU memory. We could probably do well with a single Nvidia 1050 or 1080 GTX graphics card. 
+
+\section{Outcome}
+Our ideal outcome is to extract from a scanned document a hierarchical reading order of classified bounding boxes for all the text within the document. If we are able to give good results we could also consider to submit a short paper to the Special Issue on Deep Learning for Document Analysis and Recognition - International Journal on Document Analysis and Recognition which has a deadline on the 31st of August 2017.
+{\small
+\bibliographystyle{ieee}
+\bibliography{bib}
+}
+
+\end{document}
