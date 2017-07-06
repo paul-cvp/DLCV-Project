@@ -64,6 +64,8 @@
 	
 	One difficulty could be recording the steering signal as real valued data (and not just left, right or none). Since we are going to drive with a constant speed and the network doesn't need to infer the speed of objects, the input will be just one image at a time. The output is the prediction for the steering value that should be apply given an input image.
 	
+	If we obtain satisfactory results in the first part of the project, we will proceed with the semantic segmentation of the road images by training the ResNet on the KITTI Vision Benchmark Suite dataset [8].
+	
 	\section{Methodology}
 	In our approach we would like to use the Image segmentation of the GTA (game) frame to train the DeepLab-ResNet architecture. We propose to divide the given set of image into road, cars, lanes., and then use the 
 	necessary activations of the segmentation of the lane, (if possible pedestrians etc,.) to change the angle of vehicle steering during the course of game play.
@@ -126,6 +128,8 @@
 		[6] http://www.fki.inf.unibe.ch/databases/iam-handwriting-database
 
 		[7] https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/		
+		
+		[8] http://www.cvlibs.net/publications/Fritsch2013ITSC.pdf
 						
 				
 	}
