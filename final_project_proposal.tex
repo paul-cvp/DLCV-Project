@@ -22,99 +22,111 @@
 % Pages are numbered in submission mode, and unnumbered in camera-ready
 \ifcvprfinal\pagestyle{empty}\fi
 \begin{document}
-
-%%%%%%%%% TITLE
-\title{Deep Learning for Computer Vision: Final Project Proposal\\(Replace with your project title)}
-
-\author{Tom Dorr\\
-{\tt\small tom.dorr@tum.de}
-\and
-Theodor Cheslerean Boghiu\\
-{\tt\small theo.cheslerean@tum.de}
-\and
-Mohamed Asif Chand\\
-{\tt\small mdasifchand@gmail.com}
-\and
-Vlad Paul Cosma\\
-{\tt\small vlad.cosma@tum.de}
-}
-
-\maketitle
-%\thispagestyle{empty}
-
-%
-% Proposal I
-%
-\section*{Proposal I - Level 1 autonomous driving, automated steering}
-\section{Introduction}
-In the recent years, the development of driverless cars has taken a steep curve towards truly autonomous driving systems. Companies like Tesla, Mercedes or even Google have started developing their own systems for autonomous vehicles and have made huge steps in this direction. Their aim is to provide safer cars, by lowering traffic collisions, to relief the driver from certain aspects of driving, like lowering the fuel consumption, and to facilitate new business models for mobility as a service. 
-
-Solving the problem of autonomous driving is not as easy as it sounds. To build a car that drives itself, one should consider a lot of external factors, and to combine several subsystems to create an almost flawless device. Our brains, are a good benchmark when it comes to driving. It handles input from eyes, ears, hands, feet, and the whole body and can provide feedback within milliseconds. The main goal for a driverless car is to surpass the human brain in perception and decision-making capabilities. To better track the developments in this area the SAE has defined the International Standard J3016, which identifies six levels of driving automation from “no automation” to “full automation” ( http://www.sae.org/misc/pdfs/automated_driving.pdf ). 
-
-In our project, we will focus on level 1 of automated driving, namely “Drivers Assistance”. We aim to improve the existing tools for the street lines reconnaissance and to provide a smoother ride for the passengers, by applying regression analysis using the newer DeepLab-ResNet architecture, which showed promising results in PASCAL VOC dataset.
-
-\subsection{Related Works}
-
-This field of application for deep learning has been under a lot of development lately. Most notably, The Karlsruhe Institute of Technology in collaboration with the Toyota Institute at Chicago have developed the KITTI Vision and Benchmark suite, which contains datasets and benchmarks for many different driving tasks. ( http://www.vision.caltech.edu /malaa/publications/aly08realtime.pdf ) and (https://arxiv.org/pdf/1505.00256.pdf) are also important papers on the lane detection tasks during automated driving.
-
-\section{Dataset}
-We are going to set a fixed speed for the car and want to test it in the computer game "GTA V". Since there is no good dataset available from a car that is moving with constant speed in GTA V, data collection will be a part of the project.  
- 
-Screen frames are going to be captured by the python package "grabscreen", the steering signal will be captured by the package "getkeys". The data will consist of downscaled frames from the game and the labels are going to be the steering signal that was applied while the frame was captured.
-
-One difficulty could be recording the steering signal as real valued data (and not just left, right or none). Since we are going to drive with a constant speed and the network doesn't need to infere the speed of objects, the input will be just one image at a time. The output is the prediction for the steering value that should be apply given an input image.
-
-\section{Methodology}
-In our approach we would like to use the Image segmentation of the GTA (game) frame to train the DeepLab-ResNet architecture. We propose to divide the given set of image into road, cars, lanes., and then use the 
-necessary activations of the segmentation of the lane, (if possible pedestrians etc,.) to change the angle of vehicle steering during the course of game play.
-
-Training of the model can be performed on the mini-batch of images and corresponding ground truth shall be masked with the softmax classifier at the top .During training, some inherent features of the architecture are, masks are downsampled to match the size of the output from the network and during inference, to acquire the output of the same size as the input, bilinear upsampling is also applied. The final segmentation mask is computed using argmax over the logits. As well as an optional fully-connected probabilistic graphical model, namely, CRF, is applied to refine the ultimate predictions.The model achieves 79.7% of mean interseaction over union on the test set of PASCAL VOC. 
-
-We will be using the outputs of the architecture to the steer the vehicle in the game using GTA-Plugin for capturing screen and sending commands to vehicle which can be located at https://github.com/ai-tor/DeepGTAV
-
-Considering the resource management, we will be using Nvidia based 1060 GTX (6 GB VRAM) as owned by one of the teammates, which is based on Pascal architecture and has 1280 cuda cores onboard.
-
-\section{Outcome}
- The final outcome of the project is to emulate the autonomous driving virtually on the GTA game with aid of deep neural networks and understand the underlying concepts to efficiently handle and make use of the output generated.  
-
-%
-% Proposal II
-%
-\section*{Proposal II - Document layout analysis}
-\setcounter{section}{0}
-
-\section{Introduction}
-As the world is moving to a digital age and paper based documents start to become obsolete, there is an inherent need to transfer information from existing paper based documents into digital formats. The process usually involves using scanners to create an image based pdf/tiff file. During this process the document structure is lost, elements such as headings, paragraphs, tables and titles are not properly marked up. OCR software is able to recognize the text, but it isn't able to recover the document structure, such as reading order. This is a problem if the document should be further converted into an audiobook by text-to-speech software. The document might be read in the wrong order. Our solution proposes to use a CNN in order to classify the different document areas (heading levels, paragraphs, tables, signatures etc.) from a scanned pdf in order to be used together with other technologies such as OCRs and NLP applications in order to provide a correctly tagged document, complete with reading order, from a scanned pdf.
-
-\subsection{Related Works}
-Most of the current methods rely on analytical approaches. These algorithms for layout analysis could be classified into bottom-up algorithms, which start from pixels upwards in order to recognize structure, such as the document layout analysis algorithm developed in 1993 by O'Gorman [] or top-down algorithms which start from the complete document and image and divides it into smaller regions.
-
-New methods involving deep learning are currently being investigated and several papers are tackling this challenge using deep learning. Among them there are:
-\begin{itemize}
-	\item https://pdfs.semanticscholar.org/5392 /90b571b918da959fabaae7f605bb07850518.pdf []
-	\item https://arxiv.org/pdf/1704.01474.pdf []
-	\item https://pdfs.semanticscholar.org/3b57 /85ca3c29c963ae396c2f94ba1a805c787cc8.pdf []
-\end{itemize}
-
-Our aim is to use an existing CNN that already performs well on classic object detection on the ImageNet dataset, such as ResNet and then tweak and train it for document layout analysis. Our methodology is different from others because it uses an existing well performing CNN architecture instead of a special purpose dedicated one. Also most existing CNN based methods cover the process of document image classification for the entire page and not for subsections of it.
-
-\section{Dataset}
-Currently there are several datasets available for using deep learning on documents, such as: Tobbaco [], NIST [] IAM database and we aim to use one of them. In case these will prove to be insufficiently labeled for our project, we could create simple documents by ourselves and use the markup from which they were created as the ground-truth labels for our training. 
-
-In order to train our network we would need to have at least a document with correctly labelled bounding boxes and their reading order. For input we expect to get a single page scanned pdf/tiff and for output to get a hierarchy of classified bounding boxes.
-
-\section{Methodology}
-Our methodology will be simple. First take the scanned pdf and do some simple pre-processing, such as transforming the pdf into a binary image and doing morphological operations on these in order to remove noise and have sharp text.
-
-Next we train ResNet from scratch with the labelled dataset and test using simple documents. After we have a benchmark we could start tweaking the CNN by adding and removing layers to see if it performs better or trains faster.
-
-Because we will use scanned documents we do not expect our dataset to be very huge and therefore we might not need very high GPU memory. We could probably do well with a single Nvidia 1050 or 1080 GTX graphics card. 
-
-\section{Outcome}
-Our ideal outcome is to extract from a scanned document a hierarchical reading order of classified bounding boxes for all the text within the document. If we are able to give good results we could also consider to submit a short paper to the Special Issue on Deep Learning for Document Analysis and Recognition - International Journal on Document Analysis and Recognition which has a deadline on the 31st of August 2017.
-{\small
-\bibliographystyle{ieee}
-\bibliography{bib}
-}
-
+	
+	%%%%%%%%% TITLE
+	\title{Deep Learning for Computer Vision: Final Project Proposal\\Level 1 autonomous driving and automated steering}
+	
+	\author{Tom Dorr\\
+		{\tt\small tom.doerr@tum.de}
+		\and
+		Theodor Cheslerean Boghiu\\
+		{\tt\small theo.cheslerean@tum.de}
+		\and
+		Mohamed Asif Chand\\
+		{\tt\small mdasifchand@gmail.com}
+		\and
+		Vlad Paul Cosma\\
+		{\tt\small vlad.cosma@tum.de}
+	}
+	
+	\maketitle
+	%\thispagestyle{empty}
+	
+	%
+	% Proposal I
+	%
+	\section*{Proposal I - Level 1 autonomous driving and automated steering}
+	\section{Introduction}
+	In the recent years, the development of driverless cars has taken a steep curve towards truly autonomous driving systems. Companies like Tesla, Mercedes or even Google have started developing their own systems for autonomous vehicles and have made huge steps in this direction. Their aim is to provide safer cars, by lowering traffic collisions, to relief the driver from certain aspects of driving, like lowering the fuel consumption, and to facilitate new business models for mobility as a service. 
+	
+	Solving the problem of autonomous driving is not as easy as it sounds. To build a car that drives itself, one should consider a lot of external factors, and to combine several subsystems to create an almost flawless device. Our brains, are a good benchmark when it comes to driving. It handles input from eyes, ears, hands, feet, and the whole body and can provide feedback within milliseconds. The main goal for a driverless car is to surpass the human brain in perception and decision-making capabilities. To better track the developments in this area the SAE has defined the International Standard J3016, which identifies six levels of driving automation from “no automation” to “full automation” [1]. 
+	
+	In our project, we will focus on level 1 of automated driving, namely “Drivers Assistance”. We aim to improve the existing tools for the street lines reconnaissance and to provide a smoother ride for the passengers, by applying regression analysis using the newer DeepLab-ResNet architecture, which showed promising results in PASCAL VOC dataset.
+	
+	\subsection{Related Works}
+	
+	This field of application for deep learning has been under a lot of development lately. Most notably, The Karlsruhe Institute of Technology in collaboration with the Toyota Institute at Chicago have developed the KITTI Vision and Benchmark suite, which contains datasets and benchmarks for many different driving tasks. Real time Detection of Lane Markers in Urban Streets [2] and Learning Affordance for Direct Perception in Autonomous Driving [3] are also important papers on the lane detection tasks during automated driving.
+	
+	\section{Dataset}
+	We are going to set a fixed speed for the car and want to test it in the computer game "GTA V". Since there is no good dataset available from a car that is moving with constant speed in GTA V, data collection will be a part of the project.  
+	
+	Screen frames are going to be captured by the python package "grabscreen", the steering signal will be captured by the package "getkeys". The data will consist of downscaled frames from the game and the labels are going to be the steering signal that was applied while the frame was captured.
+	
+	One difficulty could be recording the steering signal as real valued data (and not just left, right or none). Since we are going to drive with a constant speed and the network doesn't need to infer the speed of objects, the input will be just one image at a time. The output is the prediction for the steering value that should be apply given an input image.
+	
+	\section{Methodology}
+	In our approach we would like to use the Image segmentation of the GTA (game) frame to train the DeepLab-ResNet architecture. We propose to divide the given set of image into road, cars, lanes., and then use the 
+	necessary activations of the segmentation of the lane, (if possible pedestrians etc,.) to change the angle of vehicle steering during the course of game play.
+	
+	Training of the model can be performed on the mini-batch of images and corresponding ground truth shall be masked with the softmax classifier at the top .During training, some inherent features of the architecture are, masks are downsampled to match the size of the output from the network and during inference, to acquire the output of the same size as the input, bilinear upsampling is also applied. The final segmentation mask is computed using argmax over the logits. As well as an optional fully-connected probabilistic graphical model, namely, CRF, is applied to refine the ultimate predictions. The model achieves 79.7\% of mean intersection over union on the test set of PASCAL VOC. 
+	
+	We will be using the outputs of the architecture to the steer the vehicle in the game using GTA-Plugin for capturing screen and sending commands to vehicle which can be located at https://github.com/ai-tor/DeepGTAV
+	
+	Considering the resource management, we will be using Nvidia based 1060 GTX (6 GB VRAM) as owned by one of the teammates, which is based on Pascal architecture and has 1280 cuda cores onboard.
+	
+	\section{Outcome}
+	The final outcome of the project is to emulate the autonomous driving virtually on the GTA game with aid of deep neural networks and understand the underlying concepts to efficiently handle and make use of the output generated.  
+	
+	
+	%
+	% Proposal II
+	%
+	\section*{Proposal II - Document layout analysis}
+	\setcounter{section}{0}
+	
+	\section{Introduction}
+	As the world is moving to a digital age and paper based documents start to become obsolete, there is an inherent need to transfer information from existing paper based documents into digital formats. The process usually involves using scanners to create an image based pdf/tiff file. During this process the document structure is lost, elements such as headings, paragraphs, tables and titles are not properly marked up. OCR software is able to recognize the text, but it isn't able to recover the document structure, such as reading order. Our solution proposes to use a CNN in order to classify the different document areas (heading levels, paragraphs, tables, signatures etc.) from a scanned pdf in order to be used together with other technologies such as OCRs and NLP applications in order to provide a correctly tagged document, complete with reading order, from a scanned pdf.
+	
+	\subsection{Related Works}
+	Most of the current methods rely on analytical approaches. These algorithms for layout analysis could be classified into bottom-up algorithms, which start from pixels upwards in order to recognize structure or top-down algorithms which start from the complete document and image and divides it into smaller regions.
+	
+	New methods involving deep learning are currently being investigated and several papers are tackling this challenge using deep learning.
+	
+	Our aim is to use ResNet that already performs well on classic object detection on the ImageNet dataset and train it for document layout analysis. Our methodology is different from others because it uses an existing well performing CNN architecture to classify document subsections. Other solutions create their own CNN or use ResNet to classify the entire document image into various types (letter, newspaper and so on).
+	
+	\section{Dataset}
+	Currently there are several datasets available for using deep learning on documents, such as: Tobbaco [4], NIST [5] IAM database [6] and we aim to use one of them. In case these will prove to be insufficiently labelled for our project, we could create simple documents by ourselves and use the mark-up from which they were created as the ground-truth labels for our training. 
+	
+	In order to train our network we would need to have at least a document with correctly labelled bounding boxes and their reading order. For input we expect to get a single page scanned pdf/tiff and for output to get a hierarchy of classified bounding boxes.
+	
+	\section{Methodology}
+	Our methodology will be simple. First take the scanned pdf and do some simple pre-processing, such as transforming the pdf into a binary image and doing morphological operations on these in order to remove noise and have sharp text.
+	
+	Next we train ResNet from scratch with the labelled dataset and test using simple documents. After we have a benchmark we could start tweaking the CNN by adding and removing layers to see if it performs better or trains faster.
+	
+	Because we will use scanned documents we do not expect our dataset to be very huge and therefore we might not need very high GPU memory. We could probably do well with a single Nvidia 1050 or 1080 GTX graphics card. 
+	
+	\section{Outcome}
+	Our ideal outcome is to extract from a scanned document a hierarchical reading order of classified bounding boxes for all the text within the document. If we are able to give good results we could also consider to submit a short paper to the Special Issue on Deep Learning for Document Analysis and Recognition - International Journal on Document Analysis and Recognition which has a deadline on the 31st of August 2017.
+	{\small
+		\bibliographystyle{ieee}
+		\bibliography{bib}
+		
+		[1] http://www.sae.org/misc/pdfs/automated\char`_driving.pdf
+		
+		[2] http://www.vision.caltech.edu/malaa/publications/aly08realtime.pdf
+		
+		[3] https://arxiv.org/pdf/1505.00256.pdf
+		
+		[4] http://www.umiacs.umd.edu/~zhugy/tobacco800.html
+		
+		[5] https://srdata.nist.gov/gateway/gateway?keyword=handwriting+recognition
+		
+		
+		[6] http://www.fki.inf.unibe.ch/databases/iam-handwriting-database
+		
+						
+				
+	}
+	
 \end{document}
