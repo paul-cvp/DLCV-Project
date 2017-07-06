@@ -51,7 +51,7 @@
 	
 	Solving the problem of autonomous driving is not as easy as it sounds. To build a car that drives itself, one should consider a lot of external factors, and to combine several subsystems to create an almost flawless device. Our brains, are a good benchmark when it comes to driving. It handles input from eyes, ears, hands, feet, and the whole body and can provide feedback within milliseconds. The main goal for a driverless car is to surpass the human brain in perception and decision-making capabilities. To better track the developments in this area the SAE has defined the International Standard J3016, which identifies six levels of driving automation from “no automation” to “full automation” [1]. 
 	
-	In our project, we will focus on level 1 of automated driving, namely “Drivers Assistance”. We aim to improve the existing tools for the street lines reconnaissance and to provide a smoother ride for the passengers, by applying regression analysis using the newer DeepLab-ResNet architecture, which showed promising results in PASCAL VOC dataset.
+	In our project, we will focus on level 1 of automated driving, namely “Drivers Assistance”. We aim to improve the existing tools for the street lines reconnaissance and to provide a smoother ride for the passengers, by applying regression analysis using an CNN architecture similar to the one used by Nvidia [7].  If we got time left we will also try to use the newer DeepLab-ResNet architecture for semantic image segmentation in order to make it easier for the CNN to infer the steering direction. 
 	
 	\subsection{Related Works}
 	
@@ -124,7 +124,8 @@
 		
 		
 		[6] http://www.fki.inf.unibe.ch/databases/iam-handwriting-database
-		
+
+		[7] https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/		
 						
 				
 	}
