@@ -13,10 +13,13 @@
 \usepackage{multicol}
 \usepackage{lipsum}
 \usepackage{adjustbox}
+
+
+\usepackage[backend=bibtex]{biblatex}
+
 \usepackage[font=small,labelfont=bf]{caption}
 % align columns of tikzposter; needs two compilations
 \usepackage[colalign]{column_aligned}
-
 % tikzposter meta settings
 \usetheme{Default}
 \usetitlestyle{Default}
@@ -81,7 +84,7 @@
 % title matter
 \title{Level 1 Autonomous Driving}
 
-\author[1]{Tom Dorr}
+\author[1]{Tom D{\"o}rr}
 \author[2]{Theodor Cheslerean Boghiu}
 \author[3]{Mohamed asif Chand}
 \author[4]{Vlad Paul Cosma}
@@ -105,11 +108,11 @@
 \begin{columns}
 	
 	\column{0.2}
-	\block{Segmantic Segmentation}{
+	\block{Semantic Segmentation}{
 		\input{parts/semantic_segmentation}
 	}
 
-	\block{Udacity Simulator Environment}{
+	\block{Udacity Simulator Environment}{	
 		\input{parts/udacity_simulator_environment}
 	}
 
@@ -118,7 +121,7 @@
 	\block{Cityscapes Dataset}{
 		\input{parts/cityscapes_dataset}
 	}
-	\block{Segmentation Architecture}{
+	\block{Segmentation Architecture \textsuperscript{2}}{
 		\input{parts/segmentation_architecture}
 	}
 	\block{Udacity Dataset}{
@@ -129,13 +132,20 @@
 	}
 
 	\column{0.2}
-	\block{Training Results}{}
-	\block{Testing Results}{}
+	\block{Segmentation Training Results}{\phantom{Q\\Q\\Q}}
+	\block{Segmentation Testing Results}{\phantom{Q\\Q\\Q\\Q\\Q}}
 
-	\block{Training Results}{}
-	\block{Testing Results}{}
+	\block{Driving Training Results}{\phantom{Q}}
+	\block{Driving Testing Results}{\phantom{Q\\Q\\Q}}
 \end{columns}
 
-\block{References}
+\block{References} {
+%\begin{multicols*}{4}
+\textsuperscript{1} https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/
+\textsuperscript{2} SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation by Vijay Badrinarayanan et.al
+\textsuperscript{3} https://www.cityscapes-dataset.com/
+\textsuperscript{4} https://github.com/udacity/self-driving-car-sim
+%\end{multicols*}
+}
 
 \end{document}
