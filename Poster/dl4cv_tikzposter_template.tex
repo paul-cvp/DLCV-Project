@@ -1,4 +1,4 @@
-\documentclass[25pt, a0paper, landscape]{tikzposter}
+\documentclass[20pt, a0paper, landscape]{tikzposter}
 \tikzposterlatexaffectionproofoff
 \usepackage[utf8]{inputenc}
 \usepackage{authblk}
@@ -10,6 +10,10 @@
 \usepackage{amsmath, amsfonts, amssymb}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{multicol}
+\usepackage{lipsum}
+\usepackage{adjustbox}
+\usepackage[font=small,labelfont=bf]{caption}
 % align columns of tikzposter; needs two compilations
 \usepackage[colalign]{column_aligned}
 
@@ -75,11 +79,17 @@
 \colorlet{backgroundcolor}{white}
 
 % title matter
-\title{DL4CV Project}
+\title{Level 1 Autonomous Driving}
 
-\author[1]{Asif, Paul, Theo, Tom}
+\author[1]{Tom Dorr}
+\author[2]{Theodor Cheslerean Boghiu}
+\author[3]{Mohamed asif Chand}
+\author[4]{Vlad Paul Cosma}
 
-%\affil[1]{Technical University of Munich}
+\affil[1]{tom.doerr@tum.de}
+\affil[2]{theo.cheslerean@tum.de}
+\affil[3]{mdasifchand@gmail.com}
+\affil[4]{vlad.cosma@tum.de}
 
 \insertlogoi[width=15cm]{tum_logo}
 \insertlogoii[width=15cm]{tum_logo}
@@ -94,56 +104,36 @@
 
 \begin{columns}
 	
-	\column{0.3}
+	\column{0.2}
 	\block{Segmantic Segmentation}{
-		\begin{itemize}	
-			\item What are we interested in
-			\item How do we want to segment it
-			\item What should be the outcome
-			\item What is the expected quality
-		\end{itemize}
+		\input{parts/semantic_segmentation}
 	}
 
 	\block{Udacity Simulator Environment}{
-		\begin{itemize}	
-			\item Short description of how it works
-			\item Why did we choose it over GTA(Linux compatibility issues)
-			\item 
-			\item 
-		\end{itemize}
+		\input{parts/udacity_simulator_environment}
 	}
 
-	\column{0.4}
+	\column{0.6}
 
 	\block{Cityscapes Dataset}{
-	\begin{itemize}	
-		\item Sceenshots
-		\item Size
-		\item Features
-	\end{itemize}
-}
-	\block{Segmentation Architecture}{Content in your block.}
+		\input{parts/cityscapes_dataset}
+	}
+	\block{Segmentation Architecture}{
+		\input{parts/segmentation_architecture}
+	}
 	\block{Udacity Dataset}{
-		\begin{itemize}	
-		\item Sceenshots
-		\item Size
-		\item Features
-	\end{itemize}
+		\input{parts/udacity_dataset}
 	}
 	\block{Nvidia Architecture}{
-		\begin{itemize}	
-		\item Sceenshot of the architecure
-		\item What we changed
-		\item Blackbox analysis(Whats the input whats the output)
-	\end{itemize}
+		\input{parts/nvidia_architecture}
 	}
 
-	\column{0.3}
-	\block{Training Results}{Leave space for glueing later on the results}
-	\block{Testing Results}{Leave space for glueing later on the results}
+	\column{0.2}
+	\block{Training Results}{}
+	\block{Testing Results}{}
 
-	\block{Training Results}{Leave space for glueing later on the results}
-	\block{Testing Results}{Leave space for glueing later on the results}
+	\block{Training Results}{}
+	\block{Testing Results}{}
 \end{columns}
 
 \block{References}

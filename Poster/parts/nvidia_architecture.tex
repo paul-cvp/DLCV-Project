@@ -1,0 +1,12 @@
+\begin{multicols*}{2}
+A modified version of the Nvidia model is used
+
+We're leaving out one fully connected layer and cut the number of Convolutional
+feature maps in halve. We still have the last 3 fully connected layers and
+ also have the five convolutional layers of the original network. As an activation function we are using ELU.
+\begin{minipage}{0.25\textwidth}
+ \centering
+  \includegraphics[width=0.1\linewidth]{images/nvidia_architecture.png}
+  \captionof{figure}{Cars - blue, Pedestrians - red, Road - purple, Sidewalk – light green, Vegetation – green, Traffic signs - yellow, Guard rail – light brown}
+\end{minipage}
+\end{multicols*}
